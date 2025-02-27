@@ -17,8 +17,19 @@ func (c *Collection) InsertOne(ctx context.Context, document interface{}) (*mong
 }
 
 // Find a document
-func (c *Collection) FindOne(ctx context.Context, filter interface{}, result interface{}) error {
-	return c.Collection.FindOne(ctx, filter).Decode(result)
+func (c *Collection) Find(ctx context.Context, filter interface{}, result interface{}) error {
+	cursor, err := c.Collection.Find(ctx, filter)
+	if err != nil {
+		return err
+	}
+	defer cursor.Close(ctx)
+
+	
+	if err := cursor.All(ctx, result); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Update a document
