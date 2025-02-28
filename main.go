@@ -10,21 +10,19 @@ import (
 )
 
 func init(){
-	
+	utils.LoadEnvVariables()
 	utils.ConnectToDB()
 }
 
-// func test(c *gin.Context){
-// 	c.JSON(200,gin.H{"message":"hello working fine"})
-// }
 
 func main(){
 router:=gin.Default()
-// projects:=router.Group("/projects")
+
 api:=router.Group("/api")
 {
 	routes.RegisterProjectRoutes(api)
 	routes.RegisterExperienceRoutes(api)
+	routes.RegisterTestimonialRoutes(api)
 }
-router.Run(":3000")
+router.Run()
 }

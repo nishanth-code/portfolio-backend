@@ -1,12 +1,14 @@
 package utils
 
-import(
+import (
 	"context"
-	"log"
 	"fmt"
-	
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var (
@@ -16,7 +18,7 @@ var (
 	TestimonialCollection *Collection
 )
 func ConnectToDB(){
-	uri:= "mongodb+srv://nishanth:nish9741@cluster0.bbodeek.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+	uri:= os.Getenv("DBUri")
 
 	clientOptions := options.Client().ApplyURI(uri)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
@@ -31,7 +33,7 @@ func ConnectToDB(){
 	}
 	fmt.Println("Connected to MongoDB!")
 
-	db := client.Database("portfolio")
+	db := client.Database(os.Getenv("DBName"))
 
 	Client = client
 	ProjectCollection = &Collection{db.Collection("projects")}
@@ -48,5 +50,13 @@ func Close() {
 		}
 		log.Println("Disconnected from MongoDB!")
 	}
+}
+
+func LoadEnvVariables(){
+	err := godotenv.Load()
+	if err != nil {
+	  log.Fatal("Error loading .env file")
+	}
+
 }
 

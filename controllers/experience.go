@@ -11,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func GetPExperience(c *gin.Context){
+func GetExperience(c *gin.Context){
 	var result  []models.Experience
 	ctx ,cancel := context.WithTimeout(context.Background(),5*time.Second)
 	defer cancel()
