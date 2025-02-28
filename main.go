@@ -24,6 +24,7 @@ router:=gin.Default()
 api:=router.Group("/api")
 {
 	routes.RegisterProjectRoutes(api)
+	routes.RegisterExperienceRoutes(api)
 }
 router.Run(":3000")
 }
